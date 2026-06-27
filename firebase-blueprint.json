@@ -1,0 +1,160 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with role, reputation, ward, and contact information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["citizen", "leader", "authority"] },
+        "ward": { "type": "string" },
+        "reputationScore": { "type": "integer" },
+        "joinDate": { "type": "string", "format": "date" },
+        "language": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role"]
+    },
+    "Report": {
+      "title": "Civic Report",
+      "description": "Civic issue reports submitted by citizens",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "severity": { "type": "string", "enum": ["Low", "Medium", "High", "Critical"] },
+        "priority": { "type": "string", "enum": ["Low", "Medium", "High", "Urgent"] },
+        "department": { "type": "string" },
+        "status": { "type": "string" },
+        "location": { "type": "string" },
+        "coordinates": { "type": "object" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["image", "video"] },
+        "date": { "type": "string" },
+        "citizenName": { "type": "string" },
+        "confidenceScore": { "type": "number" },
+        "verificationsCount": { "type": "integer" },
+        "isVerifiedByCurrentUser": { "type": "boolean" },
+        "isSupportedByCurrentUser": { "type": "boolean" },
+        "comments": { "type": "array" },
+        "timeline": { "type": "array" },
+        "additionalMedia": { "type": "array" },
+        "rejectionReason": { "type": "string" },
+        "submissionTimestamp": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "description", "category", "severity", "status", "location"]
+    },
+    "Comment": {
+      "title": "Comment Record",
+      "description": "Comments left on reports by citizens, leaders, or authorities",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reportId": { "type": "string" },
+        "author": { "type": "string" },
+        "role": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "avatarColor": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "reportId", "author", "content", "role"]
+    },
+    "Verification": {
+      "title": "Verification Record",
+      "description": "Vouch or verification of a civic report by a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reportId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "role": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "reportId", "userId"]
+    },
+    "Notification": {
+      "title": "Notification Detail",
+      "description": "System or civic notification detail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string", "enum": ["citizen", "leader", "authority", "all"] },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "time": { "type": "string" },
+        "read": { "type": "boolean" },
+        "relatedReportId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "role", "type", "title", "message"]
+    },
+    "LeaderAction": {
+      "title": "Leader Cleanup Campaign",
+      "description": "Cleanup campaigns or initiatives organized by local leaders",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "date": { "type": "string" },
+        "volunteersNeeded": { "type": "integer" },
+        "assignedVolunteers": { "type": "array" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "location", "date"]
+    },
+    "AuthorityAction": {
+      "title": "Authority Action",
+      "description": "Official directives or actions recorded by municipality",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reportId": { "type": "string" },
+        "actionType": { "type": "string" },
+        "directive": { "type": "string" },
+        "officerName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "reportId", "actionType"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Profiles of registered Zuno users"
+    },
+    "/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Civic issues and reports submitted by users"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Exhaustive record of comments on civic reports"
+    },
+    "/verifications/{verificationId}": {
+      "schema": "Verification",
+      "description": "Individual support/verification logs"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Notifications broadcasted to citizens, leaders, and authorities"
+    },
+    "/leaderActions/{actionId}": {
+      "schema": "LeaderAction",
+      "description": "Actions scheduled by local leaders"
+    },
+    "/authorityActions/{actionId}": {
+      "schema": "AuthorityAction",
+      "description": "Official municipal directive records"
+    }
+  }
+}

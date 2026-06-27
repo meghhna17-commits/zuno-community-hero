@@ -1,0 +1,9 @@
+{
+  "name": "Zuno",
+  "description": "AI-powered community issue management platform where citizens, leaders, and authorities collaborate to resolve civic issues smarter and faster.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
